@@ -15,7 +15,7 @@ A critical gap in the industry is that many engineers perform exceptionally well
 
 This curriculum bypasses purely theoretical academic concepts in favor of practical, field-tested engineering paradigms utilized in real-world hyper-scale industries and rigorous technical interviews.
 
-<img width="1920" height="1080" alt="4" src="https://github.com/user-attachments/assets/331a7989-7f93-4f3d-95f2-5e5f5379e5ff" />
+<img width="1530" height="885" alt="image" src="https://github.com/user-attachments/assets/356c4c33-dda5-4a03-9ab4-a2ff7a6b1edd" />
 
 ### Core Curriculum Pillars
 * **Foundations:** Client-server architecture, DNS resolution, and core communication flows.
@@ -31,11 +31,11 @@ This curriculum bypasses purely theoretical academic concepts in favor of practi
 
 Every enterprise-grade system begins with a foundational understanding of the absolute simplest state: the **Single-Server Architecture**. When catering to a minimal user base, all necessary operational components reside on a single machine instance.
 
-<img width="1920" height="1080" alt="1" src="https://github.com/user-attachments/assets/32d31938-97db-4a5e-a0a0-502e433c6f51" />
+<img width="1567" height="765" alt="image" src="https://github.com/user-attachments/assets/cbedb2bf-9543-4b4b-a955-c415e7faa604" />
 
 In this monolithic standalone topology, a single bare-metal server or virtual instance is responsible for handling all incoming traffic.
 
-<img width="1920" height="1080" alt="2" src="https://github.com/user-attachments/assets/58b2887f-e3df-41a1-a9b5-d89496f5540c" />
+<img width="1531" height="876" alt="image" src="https://github.com/user-attachments/assets/653507d5-b7c0-43b9-ac9b-97dc14b67ee5" />
 
 ### Monolithic Standalone Topology Components
 * **Web Application Server:** Hosts the core business logic, application code, and handles request routing.
@@ -51,23 +51,22 @@ While entirely unsuited for scale, this architecture provides a pristine environ
 
 To build scalable infrastructure, an engineer must first trace exactly how bytes travel across the wire from a client application to the underlying hardware.
 
-<img width="1920" height="1080" alt="3" src="https://github.com/user-attachments/assets/52caeff2-a0d1-48b0-916a-4f448d838dca" />
-
 ### Address Resolution & Network Routing
 
 When an agent initiates a session, it rarely interacts with a raw IP address directly. Instead, human-readable domain names must be translated into network-routable endpoints.
 
-<img width="1920" height="1080" alt="5" src="https://github.com/user-attachments/assets/c3db12f1-8076-42a6-9170-3e7a1a5dea42" />
+<img width="1577" height="876" alt="image" src="https://github.com/user-attachments/assets/7b315459-2eed-4e2d-aa59-2c0b3d0c61ee" />
 
 1.  **DNS Resolution:** The client application requests a domain resolution (e.g., `app.demo.com`). The Domain Name System (DNS) acts as a distributed lookup directory, returning the authoritative target IP address (e.g., `172.16.254.254`).
 2.  **Downstream Routing:** Armed with the network coordinate, the client opens a transport socket and dispatches HTTP requests directly across the wide-area network to the listening server instance.
 
-<img width="1920" height="1080" alt="11" src="https://github.com/user-attachments/assets/0ab12503-9940-43b4-88f1-27ed038ec43b" />
+<img width="1566" height="881" alt="image" src="https://github.com/user-attachments/assets/4c98079a-55fc-4180-a948-bd1afeef3f5e" />
 
 > ### 🔒 Deep Dive: Delegated Authorization (OAuth 2.0)
 > Secure modern applications rely on delegated authorization models like OAuth 2.0 rather than sharing raw, sensitive credentials between services. This approach defines strict token issuance flows, ensuring a third-party application only obtains scoped access tokens (e.g., permission to "Read repositories" without the authority to "Delete repositories").
 >
-> > <img width="1920" height="1080" alt="7" src="https://github.com/user-attachments/assets/e6ccf274-1d13-4990-be72-7aad1335fb5b" />
+> > <img width="1570" height="873" alt="image" src="https://github.com/user-attachments/assets/ef3462fd-633c-4790-a5ce-4caa29de4506" />
+
 
 
 ---
@@ -76,7 +75,7 @@ When an agent initiates a session, it rarely interacts with a raw IP address dir
 
 Choosing the right protocol dictates how data is pushed or pulled across your ecosystem. Depending on your real-time performance characteristics, you must select an appropriate transport layout.
 
-<img width="1920" height="1080" alt="6" src="https://github.com/user-attachments/assets/a7285fe1-0531-4f8d-bc71-b7392a8602d1" />
+<img width="1576" height="876" alt="image" src="https://github.com/user-attachments/assets/363e0f2b-a1b3-48ce-bc19-bbddc356bc41" />
 
 | Protocol | Strategy | Latency Profile | Bandwidth Efficiency |
 | :--- | :--- | :--- | :--- |
@@ -89,25 +88,22 @@ Choosing the right protocol dictates how data is pushed or pulled across your ec
 
 A robust backend must elegantly serve a diverse matrix of front-facing consumption mediums. Each client archetype presents unique ingress traits.
 
-<img width="1920" height="1080" alt="10" src="https://github.com/user-attachments/assets/5d7c6d52-f77e-402c-ad47-456715b9bba3" />
-
 Traffic generally diverges into two primary conduits:
-
-<img width="1920" height="1080" alt="12" src="https://github.com/user-attachments/assets/c438b6a6-f66f-497c-82ab-05016de20348" />
 
 * **Web Browsers:** Execute presentation rendering via standard web stacks (HTML5, CSS3, modern JavaScript frameworks) while interacting with server-side computational layers.
 * **Mobile Clients:** Native iOS or Android instances operating asynchronously over structured serialization boundaries.
 
-<img width="1920" height="1080" alt="13" src="https://github.com/user-attachments/assets/40b9e30a-914e-4189-b983-78afd1260745" />
+<img width="1919" height="864" alt="image" src="https://github.com/user-attachments/assets/cd2778aa-b868-4fc6-8e93-e4e542637318" />
 
 ### Data Transport Format
 While browsers often handle direct server-side layouts, mobile apps rely strictly on explicit application programming interfaces executing structured representations over HTTP payload exchanges.
 
-<img width="1920" height="1080" alt="9" src="https://github.com/user-attachments/assets/1f2b75e5-06c1-47f3-96a5-d952058f7cc0" />
+<img width="1570" height="881" alt="image" src="https://github.com/user-attachments/assets/ea4e8a4a-7d87-469d-aaff-5b27877373fb" />
 
 Consider a typical resource fetch operation via an HTTP `GET` request routed to the endpoint `/products/{id}`:
 
-<img width="1920" height="1080" alt="14" src="https://github.com/user-attachments/assets/653204d3-553f-4b55-a9b9-7a1be1d53b52" />
+<img width="1918" height="880" alt="image" src="https://github.com/user-attachments/assets/fa8fe6cf-b04a-47de-abca-0694376d2ce3" />
+
 
 ```json
 {
@@ -131,6 +127,146 @@ Consider a typical resource fetch operation via an HTTP `GET` request routed to 
 * **Separate web tier and data tier** to scale them independently.
 * **Understand the request flow** from DNS to client-server communication.
 * **Analyze traffic sources** and support different client types.
+
+---
+
+# System Architecture & Database Selection Guide
+
+As an application's user base grows, running a system on a single server introduces significant resource constraints. To handle increased traffic demand and facilitate independent scalability, the system architecture must transition toward decoupled tiers.
+
+---
+
+## System Scaling & Tier Separation
+
+To accommodate rising user traffic, the application's monolithic deployment must be decoupled by separating the core computational responsibilities into distinct infrastructure layers:
+
+* **Web Tier:** Handles inbound web and mobile traffic, parses HTTP requests, manages user sessions, and executes application logic.
+* **Data Tier:** Manages database state, read/write storage execution, and data persistence layers.
+
+By decoupling these layers, each tier can be scaled independently based on its specific bottlenecks (e.g., adding compute resources to the Web Tier versus upgrading memory or disk throughput in the Data Tier).
+
+<img width="1910" height="995" alt="1" src="https://github.com/user-attachments/assets/ffbea8d9-4453-4a8b-8361-8a28ae43842c" />
+
+
+---
+
+## Database Selection Overview
+
+When provisioning the storage engine within the Data Tier, engineers must select the structural framework that matches the application's underlying data model. Database models fall into two core categories:
+
+1.  **Relational Databases (RDBMS):** Structured systems using highly rigid tables and rows to enforce integrity constraints.
+2.  **Non-Relational Databases (NoSQL):** Flexible engines engineered to process massive volumes of unstructured or rapidly changing data profiles.
+
+<img width="1918" height="985" alt="2" src="https://github.com/user-attachments/assets/cea2f047-aaa0-46c1-8cc4-210b0cdc3ab4" />
+
+---
+
+## Deep Dive: Relational Databases (RDBMS)
+
+### Architectural Concepts
+Relational Database Management Systems (RDBMS) leverage **Structured Query Language (SQL)** as the foundational standard for defining, querying, and manipulating datasets. State management is bound by predefined schemas.
+
+<img width="1918" height="919" alt="3" src="https://github.com/user-attachments/assets/11e86742-11fe-42b8-b344-c29115254515" />
+
+### Core Structures: Tables, Rows, and Columns
+The structural unit of an RDBMS is the table, which maps directly to structured fields:
+* **Columns:** Represent individual attributes or fields defining the strict dataset schema.
+* **Rows:** Represent an isolated, atomic record within that entity collection.
+
+An example schema for a `Customers` table consists of explicit attributes (`id`, `name`, `age`, `email`), where each row maps to an individual user entity:
+
+<img width="1919" height="990" alt="4" src="https://github.com/user-attachments/assets/ab96d21f-217b-4cfd-93a4-71ddaa6b47a5" />
+
+### Support for Complex Join Operations
+A major structural advantage of relational databases is the native capacity to execute complex **JOIN operations**. Instead of duplicating metadata across entities, datasets are normalized into separated domain tables and combined at query runtime.
+
+For instance, to link `customers` and `products`, a specialized mapping table (`orders`) correlates foreign keys from both domains to reconstruct an order profile dynamically:
+
+<img width="1832" height="1079" alt="5" src="https://github.com/user-attachments/assets/304c0a37-b880-43e5-a59e-7ed94798df1d" />
+
+### Data Consistency and Transaction Integrity (ACID)
+RDBMS engines guarantee complete data safety during concurrent operational workloads by executing state changes within isolated bounds called **Transactions**. Every transaction strictly satisfies the **ACID** framework:
+
+* **Atomicity:** The entire transactional block is processed as a single logical unit of work. It must completely succeed or completely fail; partial execution is impossible.
+* **Consistency:** A transaction shifts the database exclusively from one valid state to another valid state, maintaining all structural invariants and business logic constraints.
+* **Isolation:** Execution boundaries ensure that concurrent modifications running simultaneously are isolated from one another, preventing dirty or uncommitted reads.
+* **Durability:** Once committed, transaction data is written to non-volatile storage, surviving subsequent hardware crashes or system failures.
+
+<img width="1919" height="985" alt="6" src="https://github.com/user-attachments/assets/85b1d4ac-a040-444e-bc1f-f95c0dc21304" />
+
+---
+
+## Deep Dive: Non-Relational Databases (NoSQL)
+
+Non-Relational (NoSQL) databases eliminate the structural limitations of rigid tabular formats. They are optimized for highly dynamic data environments that demand rapid modifications and high write volumes.
+
+<img width="1918" height="970" alt="7" src="https://github.com/user-attachments/assets/0a4b190b-3c4b-4a10-8ae5-94253fa3b288" />
+
+### 1. Document Stores
+Document stores organize and maintain data collections inside serialized formats, most notably JSON or BSON documents.
+* **Primary Example:** MongoDB.
+* **Core Feature:** Allows nested objects, sub-arrays, and rich data structures to exist entirely within a single database record without relying on external tables.
+
+<img width="1831" height="1079" alt="8" src="https://github.com/user-attachments/assets/c9dffcc6-d7e9-4d61-a96b-68045c47fd90" />
+
+### 2. Wide-Column Stores
+Wide-column stores structure data storage around variable column families rather than standardized row schemas.
+* **Primary Examples:** Cassandra, Cosmos DB.
+* **Core Feature:** Designed to execute intensive write performance tasks and manage massive, distributed horizontal scaling across multiple data centers.
+
+<img width="1838" height="1067" alt="9" src="https://github.com/user-attachments/assets/1503c43c-dd11-4fa6-8d39-6191ef0a74b2" />
+
+### 3. Graph Databases
+Graph databases interpret information by focusing primarily on data entities and the structural relationships between them.
+* **Primary Example:** Neo4j, Amazon Neptune.
+* **Core Feature:** Represents entities as nodes and relationships as edges. This layout allows for high-speed graph traversals used in recommendation systems, social network maps, and real-time fraud analysis.
+
+<img width="1834" height="1079" alt="10" src="https://github.com/user-attachments/assets/41c9a1b4-4a83-43d3-ac11-6e96436d8b83" />
+
+### 4. Key-Value Stores
+Key-value systems operate as simple dictionaries where records are retrieved exclusively using a unique lookup key.
+* **Primary Examples:** Redis, Memcached.
+* **Core Feature:** Relies on volatile memory (RAM) as the primary storage engine. This setup yields exceptionally low latency for high-speed caching and rapid session management.
+
+<img width="1844" height="1079" alt="11" src="https://github.com/user-attachments/assets/b52c3b63-d9c3-4b1d-b5a8-0c88cf9c0349" />
+
+---
+
+### Advantages of NoSQL Engines
+NoSQL databases offer specific performance and architectural advantages over traditional systems:
+
+* **Elimination of Complex Joins:** Data that would require multiple relational JOIN queries can be stored directly inside a single document, optimizing object access.
+* **Schema Flexibility:** Systems process semi-structured and polymorphic JSON payloads seamlessly without needing migrations.
+* **High Performance and Scalability:** Storage layouts are explicitly optimized to achieve sub-millisecond latencies and facilitate horizontal scalability across shared physical machines.
+
+<img width="1919" height="976" alt="12" src="https://github.com/user-attachments/assets/1d1314f3-9875-4245-916a-b6b9498e29ff" />
+
+---
+
+## Decision Matrix: SQL vs. NoSQL
+
+Choosing between a relational and non-relational model depends entirely on the design constraints and behavior of the target application.
+
+<img width="1918" height="992" alt="14" src="https://github.com/user-attachments/assets/92a7fb44-5e41-46a0-b237-74e5261a554d" />
+
+| Architectural Dimension | Relational Databases (SQL) | Non-Relational Databases (NoSQL) |
+| :--- | :--- | :--- |
+| **Data Schema** | Strict, predefined, tabular structure | Dynamic, flexible, non-tabular formats |
+| **Relationships** | Highly optimized using runtime `JOIN` commands | Denormalized data structures or embedded models |
+| **Consistency** | Strong data consistency (**ACID** metrics) | Eventual consistency models (**BASE** metrics) |
+| **Scalability** | **Vertical scaling** (upgrading CPU/RAM/IOPS) | **Horizontal scaling** (sharding across servers) |
+| **Optimal Latency** | Moderate (bound by structural checks/joins) | Extremely low latency (optimized for cache/reads) |
+
+### Use Case Mapping
+
+#### Choose a Relational (SQL) Database when:
+* The application domain data is highly structured with clear, predictable entity relations.
+* The system requires absolute consistency and transactional guarantees (e.g., core financial transaction layers, banking ledgers, complex e-commerce order routing).
+
+#### Choose a Non-Relational (NoSQL) Database when:
+* The system handles vast quantities of unstructured, polymorphic, or rapidly mutating data formats.
+* The application demands real-time responsiveness and sub-millisecond data query execution.
+* The storage workload requires massive write performance capacities or native horizontal scaling across multiple distributed node networks (e.g., tracking user activity clickstreams, localized recommendation engines, high-speed caching layers).
 
 ---
 
