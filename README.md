@@ -275,7 +275,6 @@ Choosing between a relational and non-relational model depends entirely on the d
 When application traffic grows, system components must scale to handle the increased load without degrading performance. System engineers primarily rely on two scaling methodologies: Vertical Scaling (Scale-Up) and Horizontal Scaling (Scale-Out).
 
 <img width="1920" height="1080" alt="1 VH" src="https://github.com/user-attachments/assets/a3e637b2-eb04-451d-90f6-5a817ca348f8" />
-*Image Note: High-level conceptual overview showing a single server expanding in size versus replicating into a cluster of separate nodes.*
 
 ### Vertical Scaling (Scale-Up)
 Vertical scaling involves adding raw hardware power—such as upgrading the CPU, expanding the RAM capacity, or switching to faster storage drives—on your existing single server.
@@ -285,7 +284,6 @@ Vertical scaling involves adding raw hardware power—such as upgrading the CPU,
   * **Lack of Redundancy:** Operating on a single massive node creates a dangerous Single Point of Failure (SPOF). If that lone server experiences a hardware crash, kernel panic, or power outage, your entire application goes down instantly.
 
 <img width="1920" height="1080" alt="2  VH" src="https://github.com/user-attachments/assets/c097f57e-7466-46dd-abe8-5994417cc48d" />
-*Image Note: Diagram illustrating a single upgraded server suffering a catastrophic crash, leaving the system with a complete lack of redundancy.*
 
 ### Horizontal Scaling (Scale-Out)
 Horizontal scaling involves adding more independent server instances to your infrastructure pool to distribute the computing load evenly across a network. Instead of maximizing a single machine, you replicate your application environment across multiple standard servers.
@@ -294,7 +292,6 @@ Horizontal scaling involves adding more independent server instances to your inf
 * **Fault Tolerance:** If you maintain a pool of three active servers and one instance goes down, the remaining two operational servers seamlessly shoulder the incoming traffic, allowing your service to remain fully available while the failed instance recovers.
 
 <img width="1920" height="1080" alt="3  VH" src="https://github.com/user-attachments/assets/8551c95e-27c5-425e-b44d-353efbfb0265" />
-*Image Note: Replicated server pool showing that if a single middle server drops offline, the remaining instances continue to process requests without a system-wide outage.*
 
 ### Architectural Comparison Matrix
 
@@ -307,7 +304,6 @@ Horizontal scaling involves adding more independent server instances to your inf
 | **System Complexity** | Low (Keep architecture exactly the same) | High (Requires a frontend load balancer) |
 
 <img width="1920" height="1080" alt="5  VH" src="https://github.com/user-attachments/assets/3475c119-d50e-4f06-b0f0-1c3a7426a601" />
-*Image Note: Side-by-side architectural visualization comparing the Scale-Up approach directly against the Scale-Out model.*
 
 ---
 
@@ -316,7 +312,6 @@ Horizontal scaling involves adding more independent server instances to your inf
 While horizontal scaling resolves the single point of failure and resource capacity problems, it introduces a critical networking challenge: How do we efficiently distribute incoming client requests across our replicated backend servers? If a mobile app or desktop browser hits a multi-node backend directly, it has no native way to determine which server is free, busy, or offline. To orchestrate this traffic, we place an intelligent intermediary in front of our network: a Load Balancer.
 
 <img width="1920" height="1080" alt="4  VH" src="https://github.com/user-attachments/assets/9b6a7e5e-32fe-4503-9a2d-62216e901d37" />
-*Image Note: Network topology showing a load balancer accepting client connections, tracking server health statuses, and routing traffic dynamically across active nodes.*
 
 A Load Balancer acts as the traffic cop of your architecture. It exposes a single entry point for all client requests, evaluates the state of the backend infrastructure, and forwards traffic to the most appropriate server.
 
@@ -339,7 +334,6 @@ Load balancers apply specific routing algorithms to determine which server recei
 * **Best Suited For:** Server pools containing nodes with identical hardware specifications, where tasks require uniform processing power.
 
 <img width="1920" height="1080" alt="3" src="https://github.com/user-attachments/assets/0baead59-1c4d-4295-ac7b-a770459e20fc" />
-*Image Note: Diagram showing requests routed to three equal backend servers in a sequential 1-2-3 rotating sequence.*
 
 ### 2. Least Connections
 * **Mechanism:** Tracks the current number of active sessions on each node in real-time and routes the next incoming request to whichever server is handling the fewest concurrent active connections.
@@ -347,13 +341,11 @@ Load balancers apply specific routing algorithms to determine which server recei
 * **Best Suited For:** Applications where client sessions have unpredictable, variable lifespans (e.g., mixing long-lived WebSocket or video streams with brief, fast API requests).
 
 <img width="1920" height="1080" alt="4" src="https://github.com/user-attachments/assets/e916d2ff-b3de-452d-9da3-62d3c7acc48a" />
-*Image Note: Diagram demonstrating a client request being sent to Server 2 because its active connection metric is the lowest.*
 
 ### 2.1 Least Connections State Update
 * **Mechanism:** As new sessions open and older ones close, the load balancer recalculates state weights instantly. The chosen server's active connection count increments by one, updating the routing logic for any subsequent incoming requests.
 
 <img width="1920" height="1080" alt="5" src="https://github.com/user-attachments/assets/acee44d7-c363-42b8-9b01-8bf1346bbcaf" />
-*Image Note: Diagram showing the real-time increment of Server 2's connection counter from 9 to 10 immediately after ingestion.*
 
 ### 3. Least Response Time
 * **Mechanism:** Evaluates both the active connection count and the historical response time (latency) of each server. It routes traffic to the fastest, least busy server in the pool.
@@ -361,7 +353,6 @@ Load balancers apply specific routing algorithms to determine which server recei
 * **Best Suited For:** Heterogeneous environments where servers have differing performance characteristics and minimizing end-user latency is the primary goal.
 
 <img width="1920" height="1080" alt="6" src="https://github.com/user-attachments/assets/4c1b3cfc-1131-4162-83c5-11b84d257fb5" />
-*Image Note: Diagram charting high, low, and medium responsiveness weights across servers paired with connection counts to find the path of least latency.*
 
 ### 4. IP Hash
 * **Mechanism:** Takes the client's IP address, processes it through a hashing function to generate a numerical key, and maps that key to a specific backend server.
@@ -369,34 +360,29 @@ Load balancers apply specific routing algorithms to determine which server recei
 * **Best Suited For:** Stateful architectures where local backend servers cache specific user session details or file fragments that would be expensive to rebuild on another node.
 
 <img width="1920" height="1080" alt="7" src="https://github.com/user-attachments/assets/aef577bc-58c1-44e1-9711-e79e0ecbde48" />
-*Image Note: Diagram visualizing Client 1's IP hashing down to a static route that hits Server 2 consistently.*
 
 ### 5. Weighted Algorithms
 * **Mechanism:** Overlays a human-configured performance weight onto standard routing rules (like Weighted Round Robin or Weighted Least Connections).
 * **Example:** If your server cluster has mixed specifications—Server 1 has 16GB RAM, Server 2 has 32GB RAM, and Server 3 has 64GB RAM—you can assign a high structural weight to Server 3. The load balancer will route a proportional majority of incoming requests to Server 3, a moderate amount to Server 2, and only a tiny fraction to Server 1.
 
 <img width="1920" height="1080" alt="8" src="https://github.com/user-attachments/assets/b6377c61-2543-4593-9905-d46de3aff824" />
-*Image Note: Cluster topology showing asymmetric traffic routing favored towards higher-spec capacity nodes (16GB vs 32GB vs 64GB RAM).*
 
 ### 6. Geographical Algorithms
 * **Mechanism:** Detects the physical location of a user based on their regional client IP address and maps their session to the nearest regional data center.
 * **Example:** A global enterprise application spins up active server sets in US East, US West, and Europe. An API request coming out of a European browser will be automatically intercepted and handled by the European hub to minimize cross-continental fiber-optic network latency.
 
 <img width="1920" height="1080" alt="9" src="https://github.com/user-attachments/assets/b07e57e5-61c5-44dc-be67-4456cef0e2fa" />
-*Image Note: Global map overlay showing regional users mapping dynamically to localized endpoints (US East, US West, Europe) to eliminate latency.*
 
 ### 7. Consistent Hashing
 * **Mechanism:** An advanced form of load balancing that places both the backend server nodes and client request tokens onto a continuous, mathematical circular structure called a Hash Ring.
 * **Operational Flow:** The load balancer uses a shared hash function to place servers at distinct coordinates along the circular ring. When a client request arrives, its IP is hashed to determine its position on the ring. The request then moves clockwise along the ring until it intersects with the very first available server node, which handles the session.
 
 <img width="1920" height="1080" alt="10" src="https://github.com/user-attachments/assets/72cf3753-6c34-44b7-b75b-2ff1c0175980" />
-*Image Note: Layout of a continuous mathematical hash ring space pointing to a load balancer node configuration.*
 
 * **Why it matters:** In traditional IP hashing, adding or removing a server completely rewrites the mathematical modulo results, dropping nearly all existing client session states across the entire system. Consistent Hashing elegantly resolves this problem: when a server goes down or a new one is introduced, only a tiny sliver of keys next to that node on the ring need to be remapped, keeping the rest of your system completely unaffected.
 
 
 <img width="1920" height="2160" alt="image" src="https://github.com/user-attachments/assets/ee8dc9b6-1442-4839-a5ab-7c7dbfc0e5f2" />
-*Image Note: Detailed focus diagram illustrating the final clockwise resolution of a request key cleanly hitting Server 2 on the perimeter of the hash circle.*
 
 ---
 
