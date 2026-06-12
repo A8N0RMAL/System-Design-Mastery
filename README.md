@@ -386,7 +386,7 @@ Load balancers apply specific routing algorithms to determine which server recei
 
 ---
 
-## 4. Health Checks
+## Health Checks
 
 How does a load balancer know when a server has suffered a crash or disconnected from the network? It relies on Health Checks.
 
