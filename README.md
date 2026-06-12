@@ -406,7 +406,7 @@ A load balancer continuously monitors the status of all registered backend insta
 
 ---
 
-# Single Point of Failure (SPOF) & Load Balancer Redundancy
+# Single Point of Failure (SPOF)
 
 In production-grade system design, minimizing downtime requires identifying and eliminating architectures where a single component holds the power to disrupt the entire platform. If a system lacks redundancy for a critical part, that part becomes a vulnerability.
 
@@ -431,7 +431,7 @@ Consider a standard architecture where multiple client applications connect to a
 
 Allowing an unmitigated SPOF to exist in your system architecture introduces major business and operational risks across three pillars:
 
-![Downsides of a Single Point of Failure](2_2.jpg)  
+<img width="1920" height="1080" alt="2" src="https://github.com/user-attachments/assets/2239caa2-3eea-4498-b201-25a36cfe5958" />
 
 * **Reliability & Business Losses:** A single node failure can take the entire system down instantly. For a business, this means immediate losses because users are blocked from accessing the platform, hitting the checkout page, or using core parts of the system.
 * **Scalability Bottlenecks:** Systems bound to a single un-replicated component struggle to scale efficiently. As you try to expand, each added component simply increases the collective risk of failing that single un-replicated part.
