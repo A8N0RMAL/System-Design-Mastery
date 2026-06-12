@@ -104,7 +104,6 @@ Consider a typical resource fetch operation via an HTTP `GET` request routed to 
 
 <img width="1918" height="880" alt="image" src="https://github.com/user-attachments/assets/fa8fe6cf-b04a-47de-abca-0694376d2ce3" />
 
-
 ```json
 {
   "productId": 456,
