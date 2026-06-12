@@ -431,8 +431,6 @@ Consider a standard architecture where multiple client applications connect to a
 
 Allowing an unmitigated SPOF to exist in your system architecture introduces major business and operational risks across three pillars:
 
-<img width="1920" height="1080" alt="2" src="https://github.com/user-attachments/assets/2239caa2-3eea-4498-b201-25a36cfe5958" />
-
 * **Reliability & Business Losses:** A single node failure can take the entire system down instantly. For a business, this means immediate losses because users are blocked from accessing the platform, hitting the checkout page, or using core parts of the system.
 * **Scalability Bottlenecks:** Systems bound to a single un-replicated component struggle to scale efficiently. As you try to expand, each added component simply increases the collective risk of failing that single un-replicated part.
 * **Security Vulnerabilities:** A SPOF provides a clear target for malicious actors. If you run only a single Load Balancer, attackers can compromise this point by sending huge amounts of traffic to it (DDoS). If this single load balancer fails, the whole system goes down.
