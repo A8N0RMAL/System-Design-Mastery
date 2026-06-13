@@ -746,3 +746,103 @@ Use the following matrix as a cheat sheet for architectural decisions:
 ---
 
 
+
+
+# Transport Layer Protocols: TCP vs. UDP
+
+> **Overview:** When a client makes a request to a server (for example, `GET /users`), the Application Layer protocol (like HTTP) defines the format of the message, but the Transport Layer protocol determines exactly how that data moves across the internet from one machine to another. 
+
+---
+
+## 1. Introduction to the Transport Layer
+
+In the OSI model, API developers primarily focus on two essential layers to understand how communication works:
+
+1. **Application Layer:** Determines *"How we speak"*. This is where protocols like HTTP, HTTPS, WebSockets, and gRPC define message rules and structures.
+2. **Transport Layer:** Determines *"How data is delivered"*. This layer contains **TCP** and **UDP**, which handle the actual movement of data packets.
+
+### The Protocol Hierarchy
+Standard application protocols do not move data independently; they run directly on top of transport protocols to reach their destination:
+* **HTTP / HTTPS:** Run on top of TCP to ensure data completeness.
+* **WebSockets:** Keep persistent connections open on top of TCP.
+* **gRPC:** Runs on top of HTTP/2, which inherently operates over TCP.
+
+<img width="1713" height="1078" alt="3" src="https://github.com/user-attachments/assets/5390c251-d470-4d1d-a262-67965a5cfc45" />
+
+---
+
+## 2. TCP (Transmission Control Protocol)
+### *"Reliable but Slow"*
+
+Think of TCP as a premium shipping service that provides tracking, a delivery receipt, and requires a signature upon arrival. It is designed for absolute accuracy.
+<img width="1698" height="1078" alt="1" src="https://github.com/user-attachments/assets/9df7e1f2-9702-4546-ada5-7697d7e34c21" />
+
+### Key Features of TCP:
+* **Guaranteed Delivery (Reliable):** Data is broken down into small chunks called packets. If a packet gets lost during transmission, TCP notices the failure, waits for a timeout, and re-sends the missing packet to guarantee everything arrives safely.
+* **Packet Ordering:** If packets arrive out of order (e.g., receiving packet 1, then 3, then 2), TCP automatically reorders them into the correct sequence (1, 2, 3) before delivering them to the application.
+* **Connection-Oriented (3-Way Handshake):** Before any application data can be sent, TCP must establish a secure connection between the client and the server using a strict 3-step process.
+
+### The 3-Way Handshake Mechanics:
+1. **SYN:** The client sends a synchronization request (*"Can we establish a connection?"*).
+2. **SYN-ACK:** The server responds by acknowledging the request (*"Yes, I can hear you, let's connect"*).
+3. **ACK:** The client sends a final acknowledgment back to the server (*"Perfect, connection established!"*).
+
+<img width="1877" height="993" alt="2" src="https://github.com/user-attachments/assets/5af204d6-db4a-4081-9766-f395a76a1371" />
+
+
+### Drawbacks of TCP:
+All of these reliability checks come with a cost. TCP adds significant **overhead** and is inherently **slower** because it constantly spends time executing handshakes, tracking packets, verifying order, and retrying lost data.
+
+### Primary Use Cases:
+TCP is mandatory for sensitive applications that cannot afford a single error or missing piece of data:
+* **Banking & Financial Systems** (Balances and money transfers must be precise)
+* **Authentication & Login Portals** (Credentials must arrive entirely intact)
+* **Emails** (The message must be delivered completely)
+* **Payment Gateways** (Transactions must execute without failure)
+
+---
+
+## 3. UDP (User Datagram Protocol)
+### *"Fast but Risky"*
+
+Think of UDP like a fast-moving microbus that drives straight to the destination without stopping to check who got on or who fell off. It prioritizes speed above everything else.
+
+### Key Features of UDP:
+* **No Delivery Guarantee (Unreliable):** UDP simply pushes packets to the destination. If a packet is dropped or lost on the way, UDP will **not** re-send it. It just keeps going with the next packets.
+* **Connectionless (No Handshake):** There is no initial 3-way handshake or connection tracking. The source immediately transmits data without waiting for the destination to say it is ready.
+* **Lightweight with Minimal Overhead:** Because it does not track packets, re-send lost data, or enforce ordering, it operates with zero delays and absolute efficiency.
+
+<img width="1637" height="1077" alt="3" src="https://github.com/user-attachments/assets/8d6db7ad-231b-4ce5-a231-150c0490c0ae" />
+
+
+### Why Use UDP?
+In real-time systems, **low latency and speed are more critical than 100% data accuracy**. For example, during a live audio or video call, if the connection lags for a split second, it makes no sense to halt the call to re-send old data from 3 seconds ago. It is much better to drop that brief moment and immediately move on to the live audio.
+
+### Primary Use Cases:
+* **Video Calls** (Zoom, Google Meet, WhatsApp Calls)
+* **Online Multiplayer Gaming** (PUBG, Valorant)
+* **Live Streaming & Broadcasting**
+
+---
+
+## 4. Protocol Selection Matrix
+
+| Feature / Criteria | TCP | UDP |
+| :--- | :--- | :--- |
+| **Core Concept** | Reliable but Slower | Fast but Unreliable / Risky |
+| **Delivery Guarantee** | Yes (Guarantees all data arrives) | No (Data loss can happen) |
+| **Transmission Speed** | Slower (High overhead) | Faster (Lightweight, low overhead) |
+| **Connection Type** | Connection-Oriented (Requires Handshake) | Connectionless (No Handshake) |
+| **Packet Ordering** | Yes (Strictly orders packets) | No (Packets can arrive in any order) |
+| **Retries / Error Fixing**| Yes (Re-sends lost packets) | No (Never re-sends dropped packets) |
+| **Best Suited For** | Payments, Logins, Banking, Emails | Video Calls, Live Streaming, Gaming |
+
+> **Summary Checklist for API Design:**
+> * Choose **TCP** if you need total accuracy, safety, and complete data delivery.
+> * Choose **UDP** if you need extreme speed and real-time performance, and can safely tolerate losing minor pieces of data.
+
+---
+
+
+
+
