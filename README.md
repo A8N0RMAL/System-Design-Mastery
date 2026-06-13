@@ -468,3 +468,138 @@ Self-healing design patterns eliminate manual intervention by automating infrast
 
 ---
 
+# API Design
+
+---
+
+## 1. What is an API?
+
+An **API (Application Programming Interface)** acts as a formalized contract between a client and a server. It explicitly outlines the allowed requests, structural syntax, interaction methods, and expected responses, abstracting internal logic away from the consumer.
+
+<img width="1918" height="965" alt="1" src="https://github.com/user-attachments/assets/9b6c771b-42e7-4bb4-9ab6-facc3999a1e6" />
+
+
+### Key Architecture Roles
+* **Abstraction Mechanism:** Hides complex underlying implementation details (e.g., database choices like SQL/NoSQL or internal algorithms) while presenting a simple, unified data-saving interface (`POST /users`).
+* **Service Boundaries:** Establishes clear isolation layers and micro-boundaries between different system modules (e.g., separating user management, posting feeds, and processing payments into distinct functional boundaries).
+
+<img width="1835" height="1073" alt="3" src="https://github.com/user-attachments/assets/ed4bef61-11c4-4cf9-a0c7-02910d843f54" />
+
+
+---
+
+## 2. Core API Styles
+
+Different architectural requirements demand different architectural patterns. The three dominant industry styles are **REST**, **GraphQL**, and **gRPC**.
+
+<img width="1723" height="1078" alt="4" src="https://github.com/user-attachments/assets/b9540ce3-a879-4ea3-882d-3b1bfeb583ad" />
+
+
+### 1. REST (Representational State Transfer)
+The most common structural standard for modern web and mobile applications.
+* **Resource-Based Routing:** Organizes communication around explicit resource nouns accessed via standard HTTP verbs (`GET`, `POST`, `PUT`, `PATCH`, `DELETE`).
+* **Stateless Isolation:** Every individual request must carry all the data payload and context required for fulfillment. The server stores zero session memory between connections.
+
+### 2. GraphQL
+A highly flexible data query language built to solve client data retrieval inefficiencies.
+* **Single Endpoint Topology:** Exposes a single unified endpoint (typically `/graphql`) instead of dozens of resource paths.
+* **Precise Client Control:** The frontend specifies exactly what fields it needs inside the request payload, eliminating over-fetching and under-fetching.
+* **Flexible Actions:** Operates using `queries` (data fetching), `mutations` (data modification), and `subscriptions` (persistent real-time updates).
+* **Ideal Use Case:** Highly complex web interfaces where custom layouts require pulling deeply nested relational data arrays simultaneously.
+
+### 3. gRPC (Google Remote Procedure Call)
+A highly optimized, high-performance execution framework built for speed.
+* **Protocol Buffers:** Replaces traditional plain text JSON/XML data payloads with low-overhead, tightly packed binary serialization format schemas defined in `.proto` files.
+* **Advanced Streaming:** Natively supports traditional single calls alongside server streaming, client streaming, and fully bidirectional communication channels.
+* **Ideal Use Case:** Low-latency microservices meshes or persistent backend server-to-server data pipelines.
+
+---
+
+## 3. Structural Breakdown: REST vs. GraphQL
+
+Choosing between a REST setup and a GraphQL implementation changes how your application fetches dependencies and manages state boundaries.
+
+<img width="1753" height="1078" alt="5" src="https://github.com/user-attachments/assets/d46d86ca-3ac5-498e-91d3-d813788e37a2" />
+
+
+| Architecture Metric | REST API Architecture | GraphQL Query Engine |
+| :--- | :--- | :--- |
+| **Endpoint Topology** | Resource-based discrete paths (`/users`, `/posts`) | Single access path (typically `/graphql`) |
+| **Data Fetching Roundtrips** | Multiple consecutive calls needed for relational data | One single optimized request retrieves nested elements |
+| **Response Payload Structure**| Fixed structure strictly controlled by server DTOs | Dynamic shape explicitly determined by client query schemas |
+| **Versioning Engine** | Explicit path markers (`/api/v1/`, `/api/v2/`) | Evolutionary fields without breaking root paths |
+| **Caching Tier** | Native HTTP network tier caching via standard headers | Custom application-level query caching layers |
+
+---
+
+## 4. Key Design Principles
+
+The ultimate baseline for a well-designed API is intuitive usage—ideally, a developer should interact with it successfully without constantly needing to read documentation.
+
+<img width="1611" height="1078" alt="6" src="https://github.com/user-attachments/assets/3ea96f4a-2dae-433a-a470-aaa1865d47c3" />
+
+
+* **Consistency:** Maintain uniform casing patterns (e.g., stick strictly to `camelCase` or `snake_case` across all inputs and endpoints) and identical semantic error structures.
+* **Simplicity:** Keep actions clear and focus squarely on core domain use cases. Avoid overly complex multi-purpose endpoints.
+* **Security:** Layer essential protection vectors directly onto the routing tier:
+  * **Authentication & Authorization:** Identify exactly who the caller is and verify their precise data permissions.
+  * **Input Validation:** Clean and validate incoming structural data payloads to prevent code injection.
+  * **Rate Limiting:** Enforce transaction rate thresholds to prevent system misuse or resource exhaustion.
+* **Performance:** Ensure highly efficient resource consumption:
+  * Implement clean **Caching Strategies** and rigid data payload limits.
+  * Always use query **Pagination** configurations (`?page=1&limit=20`) when serving large datasets.
+  * Minimize network round trips by grouping data dependencies whenever practical.
+
+---
+
+## 5. Protocol Constraints & Selection
+
+The technical capabilities of your transport protocols fundamentally shape your API design options.
+
+<img width="1750" height="1077" alt="7" src="https://github.com/user-attachments/assets/57095153-9f66-41f0-a869-ec52d267e3e9" />
+
+
+* **HTTP Protocol:** Offers a natural fit for **RESTful architectures**, using standard status codes to map cleanly to basic CRUD behaviors.
+* **WebSockets:** Provides persistent, low-overhead, duplex communication channels. This makes it ideal for true **real-time applications** (e.g., chat messaging, live financial tickers, or notification streams).
+* **gRPC Protocol Engine:** Uses optimized connections to accelerate performance across internal data centers or **microservices architectures**.
+
+---
+
+## 6. The API Design & Discovery Process
+
+A structured design phase helps prevent breaking changes later in development.
+
+<img width="1733" height="1078" alt="8" src="https://github.com/user-attachments/assets/1a045382-5d9d-4262-81d3-a266b1b65645" />
+
+
+### Architectural Scoping
+1. Identify all critical technical core use cases and user stories.
+2. Formulate explicit boundaries defining what is out-of-scope for the current release.
+3. Quantify performance targets and isolate potential infrastructure bottlenecks.
+4. Establish clear security configurations early in the lifecycle.
+
+### Common Design Methodologies
+
+<img width="1917" height="932" alt="9" src="https://github.com/user-attachments/assets/a8ff4900-36e5-41be-866b-1a59d0d02c9e" />
+
+
+* **Top-Down Design:** Start with abstract business use cases and map them down into concrete endpoints before writing code. This is the standard pattern for technical system design interviews.
+* **Bottom-Up Design:** Build outward from an existing database or legacy system models, exposing capabilities directly. This is common when refactoring internal company systems.
+* **Contract-First Design:** Explicitly write out the data contract format (requests, status codes, and JSON schemas) before implementation begins. This allows frontend and backend teams to build in parallel.
+
+---
+
+## 7. API Lifecycle Management
+
+An API moves through continuous operational stages from its inception to its final retirement phase.
+
+<img width="1917" height="897" alt="10" src="https://github.com/user-attachments/assets/0db65b7b-5e23-40bc-8f03-63d7594abafc" />
+
+* **Design:** Gather core technical requirements, specify data contracts, and establish validation rules.
+* **Development & Local Testing:** Write the code and run local integration test suites.
+* **Deployment & Monitoring:** Push the service to staging and production tiers while tracking live error metrics.
+* **Maintenance:** The longest operational phase, dedicated to performance tuning, security patches, and incremental updates.
+* **Deprecation & Retirement:** Phase out old schemas gracefully by warning clients and pointing them to newer versions (`v1` to `v2`) before turning off legacy systems.
+
+---
+
