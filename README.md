@@ -844,5 +844,111 @@ In real-time systems, **low latency and speed are more critical than 100% data a
 ---
 
 
+# RESTful API Design  
 
+RESTful APIs allow different parts of a system to communicate using standard HTTP methods. Following proven best practices ensures that APIs remain consistent, predictable, easy to use, and simple to maintain.
+
+---
+
+## 1. Resource Modeling & URL Design
+
+In REST, **Resources** represent the core concepts of your business domain (such as products, orders, or reviews).
+
+* **Use Nouns, Not Verbs:** Always model resources as nouns rather than actions. The HTTP method itself defines the operation.
+  * ✅ **Good:** `/products`
+  * ❌ **Poor:** `/getProducts`, `/createOrder`, or `/deleteUser`
+* **Collections vs. Individual Items:** 
+  * A collection path returns a list of resources: `GET /api/v1/products`
+  * An individual path targets a specific item using its unique ID: `GET /api/v1/products/123`
+* **Nested Resources:** Use hierarchical paths to represent sub-collections or relationships. For example, to fetch the reviews belonging to a specific product:
+  * `GET /api/v1/products/123/reviews`
+<img width="1651" height="1078" alt="1" src="https://github.com/user-attachments/assets/fec73f21-0520-423a-a45d-af1e69f669aa" />
+
+<img width="1916" height="993" alt="2" src="https://github.com/user-attachments/assets/6a952059-55a1-431d-85da-0f324b075737" />
+
+---
+
+## 2. Query Parameters: Filtering, Sorting, and Pagination
+
+When working with large databases, returning all results at once is inefficient. Query parameters (anything following the `?` in a URL) are used to manage the returned data.
+
+### Filtering
+Filtering restricts the dataset based on specific criteria. It saves server bandwidth and prevents massive responses from overwhelming the frontend.
+> **Example:** `GET /products?category=books&inStock=true` (Fetches only books that are currently in stock).
+<img width="1822" height="1073" alt="3" src="https://github.com/user-attachments/assets/12fcea23-58b9-45c5-a5f3-33c41eddc21d" />
+
+### Sorting
+Sorting must always be performed on the backend database level rather than fetching all unsorted data to the frontend. This keeps the application highly efficient.
+> **Example:** `GET /products?sort=price_asc` (Orders the products by price ascending).
+<img width="1832" height="1077" alt="4" src="https://github.com/user-attachments/assets/2655a90d-084d-486d-879c-7436f2722407" />
+
+### Pagination Strategies
+To keep responses lightweight, use one of these three common pagination approaches:
+1. **Page and Limit:** Specifies the exact page number and count of items per page.
+   * `?page=2&limit=10`
+2. **Offset and Limit:** Offset establishes the starting index point in the dataset, and limit sets the total number of items to retrieve.
+   * `?offset=40&limit=20`
+3. **Cursor-Based:** Uses a unique hash of the page as a pointer. This approach is highly optimized for very large datasets.
+<img width="1691" height="1078" alt="5" src="https://github.com/user-attachments/assets/71b7d693-99b7-44eb-a31e-f6dc080ce2b0" />
+
+### Core Benefits
+* **Saves server bandwidth** by transferring only the required data.
+* **Improves performance** on both the server and client sides.
+* **Provides frontend flexibility** to control data delivery.
+
+---
+
+## 3. HTTP Methods & CRUD Operations
+
+RESTful APIs map standard HTTP methods directly to CRUD (Create, Read, Update, Delete) actions.
+
+| HTTP Method | CRUD Operation | Target Example | Behavior Properties |
+| :--- | :--- | :--- | :--- |
+| **GET** | Read | `GET /api/v1/products` | **Safe & Idempotent:** Does not alter server state. Returns identical output if repeated. |
+| **POST** | Create | `POST /api/v1/products` | **Not Safe & Not Idempotent:** Alters server state by adding new items. Generates a new ID on every call. |
+| **PUT** | Update (Replace) | `PUT /api/v1/products/123` | **Not Safe & Idempotent:** Replaces the *entire* target resource with the new request payload. |
+| **PATCH** | Update (Partial) | `PATCH /api/v1/products/123` | **Not Safe & Not Idempotent:** Applies a *partial* modification (e.g., updating only a product's price or title). |
+| **DELETE** | Delete | `DELETE /api/v1/products/123` | **Not Safe & Idempotent:** Removes the resource from the database. No request body is required. |
+
+<img width="1760" height="1078" alt="7" src="https://github.com/user-attachments/assets/baab5f1c-e02b-4567-85ab-17a7c4d8ddc3" />
+
+---
+
+## 4. Status Codes & Error Handling
+
+An API must return the correct standard HTTP status code series so the client application understands the outcome of a request.
+
+* **2xx (Success Series):**
+  * `200 OK`: Successful fetch operation (commonly returned with `GET`).
+  * `201 Created`: Successful resource creation (commonly returned with `POST`).
+  * `204 No Content`: Request succeeded, but there is no data to return in the response body (frequently used with `DELETE`).
+* **3xx (Redirection Series):**
+  * Indicates that a resource URL has moved, redirecting the client application to a new location.
+* **4xx (Client Error Series):**
+  * `400 Bad Request`: The request contains invalid parameters, missing data, or malformed JSON syntax.
+  * `401 Unauthorized`: The client is not authenticated to perform this request.
+  * `404 Not Found`: The requested resource does not exist in the database (e.g., querying an invalid product ID like `/products/999`).
+* **5xx (Server Error Series):**
+  * `500 Internal Server Error`: An unexpected server-side crash or failure occurred despite a valid client request.
+
+<img width="1757" height="1073" alt="8" src="https://github.com/user-attachments/assets/43630dd3-24f3-4830-a536-25a8b1d32383" />
+
+---
+
+## 5. REST Best Practices & API Versioning
+
+### Golden Rules of REST Design
+* **Always use plural nouns** for consistency across resource paths (e.g., `/users` instead of `/user`).
+* **Enforce proper HTTP methods** for all actions rather than relying on generic endpoints.
+* **Incorporate filtering, sorting, and pagination** across all collection endpoints to protect performance.
+
+### API Versioning
+APIs must be versioned using prefixes within the URL path to ensure continuous, reliable delivery for consumers.
+
+```text
+/api/v1/products
+/api/v2/products
+```
+
+---
 
