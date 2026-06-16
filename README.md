@@ -952,3 +952,83 @@ APIs must be versioned using prefixes within the URL path to ensure continuous, 
 
 ---
 
+
+# GraphQL API Design & Core Concepts
+
+---
+
+## 1. Why GraphQL Exists
+* **REST Problems:** Traditional REST APIs cause over-fetching (returning too much data) and under-fetching (returning too little data).
+* **Latency:** Under-fetching forces clients to make multiple separate API requests (e.g., separate requests to user, posts, comments, and likes APIs) for a single view, which increases page latency.
+* **The Solution:** A single HTTP endpoint where the client specifies the exact shape of the response, eliminating extra round-trips and over-fetching.
+
+<img width="1918" height="998" alt="3" src="https://github.com/user-attachments/assets/b84eea6c-cd85-43da-b291-7968f2a69f74" />
+
+---
+
+## 2. Schema Design & Type System
+* **Strict Contract:** The schema acts as a strict contract between the client and the server.
+* **Type System:** Object types (like User) group fields (like id, name, posts). Non-primitive fields map directly to other custom types or arrays (like a Post array).
+
+> **Golden Rule:** A good schema design must mirror your domain model, making it intuitive and flexible for both backend and frontend teams.
+
+<img width="1841" height="1078" alt="4" src="https://github.com/user-attachments/assets/b8a89d29-45d4-4486-9fec-b28641c7ce20" />
+
+
+---
+
+## 3. Queries & Mutations
+* **Queries (Reading Data):** The equivalent of GET requests in REST. Clients request specific attributes and get the exact data shape back (e.g., fetching a user's name and only the titles of their posts).
+* **Mutations (Modifying Data):** The equivalent of POST, PUT, PATCH, and DELETE in REST. Used whenever data changes in the database (e.g., createPost). They also return a specified data shape immediately after execution (like the new item's ID and title).
+
+```graphql
+# Example Query
+query {
+  user(id: "123") {
+    name
+    posts {
+      title
+    }
+  }
+}
+
+```
+
+
+
+```graphql
+# Example Mutation
+mutation {
+  createPost(title: "New Post", body: "Hello") {
+    id
+    title
+  }
+}
+
+```
+
+---
+
+## 4. GraphQL Error Handling
+
+* **The 200 OK Paradigm:** GraphQL always returns a 200 OK status code for all responses, even when an execution error occurs.
+* **The errors Field:** Errors are explicitly detailed inside a top-level errors array in the JSON response. This contains fields like statusCode (e.g., 404), message (e.g., "not found"), and the schema path.
+* **Partial Data:** A response can return partial valid data and an errors array simultaneously (e.g., the user object is null, but the errors array explains why).
+<img width="1812" height="1078" alt="7" src="https://github.com/user-attachments/assets/0786317b-0034-42eb-95bb-0c890996586e" />
+<img width="1847" height="1075" alt="8" src="https://github.com/user-attachments/assets/bec48ad2-ec1c-47c5-88aa-03e14b2f1db0" />
+
+---
+
+## 5. GraphQL Best Practices
+
+* **Keep Schemas Modular:** Keep your schemas small and modular.
+* **Limit Query Depth:** Avoid deeply nested queries by implementing a Query Limit Depth constraint to set a maximum allowable layer depth (such as 6 or 7 layers).
+* **Use Clear Naming:** Use clear and meaningful naming conventions for types and fields since both client and server depend on the same schema.
+<img width="1841" height="1072" alt="9" src="https://github.com/user-attachments/assets/73a6e60c-53c2-4186-8027-47746e9000d0" />
+
+
+---
+
+
+
+
