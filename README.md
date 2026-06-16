@@ -953,7 +953,7 @@ APIs must be versioned using prefixes within the URL path to ensure continuous, 
 ---
 
 
-# GraphQL API Design & Core Concepts
+# GraphQL API Design
 
 ---
 
